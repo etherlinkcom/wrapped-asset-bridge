@@ -18,6 +18,8 @@ module.exports = async function (taskArgs, hre) {
 	const WrappedTokenContract = await ethers.getContractFactory(contract, etherlinkWallet)
 	const wrappedTokenContract = await WrappedTokenContract.deploy(etherlinkWrappedAssetBridgeAddress)
 
+	await wrappedTokenContract.deployTransaction.wait();
+
 	console.log(`\nDeployed ${taskArgs.contract} at ${wrappedTokenContract.address}\n`)
 
 	await hre.run("verify:verify", {

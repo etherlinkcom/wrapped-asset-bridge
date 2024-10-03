@@ -72,7 +72,15 @@ const getContractFactory = async (hre, contractName) => {
     return contractFactories[contractName]
 }
 
-const getWallet = (index) => ethers.Wallet.fromMnemonic(process.env.MNEMONIC, `m/44'/60'/0'/0/${index}`)
+// Define an environment variable to store private keys for each wallet (e.g., as a comma-separated string)
+const getWallet = (index) => {
+    const privateKeys = process.env.PRIVATE_KEY.split(","); // PRIVATE_KEY is expected to be a comma-separated string of private keys
+    const privateKey = privateKeys[index];  // Fetch the private key based on index
+    if (!privateKey) {
+        throw new Error(`No private key found for index ${index}`);
+    }
+    return new ethers.Wallet(privateKey);
+}
 
 const connectedWallets = {}
 const getConnectedWallet = (hre, network, walletIndex) => {

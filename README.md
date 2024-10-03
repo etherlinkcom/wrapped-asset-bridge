@@ -19,6 +19,7 @@ Wrapped asset bridge allows bridging `ERC20` tokens and native gas tokens (e.g. 
 
 - Clone the repository
 - run `yarn`
+- rename the `.env.example` file to `.env` and add your private key
 
 ### Test
 
