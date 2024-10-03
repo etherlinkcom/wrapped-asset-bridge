@@ -32,7 +32,7 @@ const deployContract = async (hre, network, tags) => {
 const providerByNetwork = {}
 const getProvider = (hre, network) => {
     if (!providerByNetwork[network]) {
-        const networkUrl = hre.config.networks[network].url      
+        const networkUrl = hre.config.networks[network].url
         providerByNetwork[network] = new ethers.providers.JsonRpcProvider(networkUrl)
     }
     return providerByNetwork[network]
@@ -85,12 +85,12 @@ const getConnectedWallet = (hre, network, walletIndex) => {
     return connectedWallets[key]
 }
 
-const getWalletContract = async (hre, network, contractName, walletIndex = 0) => {   
+const getWalletContract = async (hre, network, contractName, walletIndex = 0) => {
     const contract = await getContract(hre, network, contractName)
     const wallet = getConnectedWallet(hre, network, walletIndex)
     return contract.connect(wallet)
 }
 
 module.exports = {
-    deployContract, getWalletContract
+    deployContract, getWalletContract, getConnectedWallet, getContractFactory
 }

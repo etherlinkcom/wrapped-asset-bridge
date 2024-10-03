@@ -57,7 +57,7 @@ module.exports = {
             runs: 200
           }
         }
-      }    
+      }
     ]
   },
   contractSizer: {
@@ -73,6 +73,16 @@ module.exports = {
   },
 
   networks: {
+    etherlink: {
+      url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+      chainId: 42793,
+      accounts: accounts(),
+    },
+    etherlinkTestnet: {
+      url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+      chainId: 128123,
+      accounts: accounts(),
+    },
     ethereum: {
       url: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
       chainId: 1,

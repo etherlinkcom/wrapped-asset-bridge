@@ -15,5 +15,8 @@
   "arbitrum-goerli":  10143,
   "optimism-goerli":  10132,
   "fantom-testnet":   10112,
-  "coredao-testnet":  10153
+  "coredao-testnet":  10153,
+
+  "etherlink":        42793,
+  "etherlinkTestnet": 128123
 }
