@@ -1,6 +1,5 @@
 const { getConnectedWallet } = require("../utils/crossChainHelper")
 const CHAIN_IDS = require("../constants/chainIds.json")
-const { ethers } = require("hardhat")
 
 const bridgeAddresses = {
 	"ethereum": "0x1f8E735f424B7A49A885571A2fA104E8C13C26c7",
@@ -24,23 +23,33 @@ const etherlinkWrappedTokenAddresses = {
 
 
 /*
+	// BASE
+	npx hardhat registerToken \
+		--original-network "base" \
+		--original-token "0x6Bd593530f19119649A7eefC79E147CF0d4bFD49" \
+		--wrapped-token "0x8F5034319aB049F149A31063862Df235Ca59a846" \
+		--shared-decimals 18
+
+
 	taskArgs
-	originalNetwork: string = network of the original network
-	originalToken: string = address of the token on the original network
-	wrappedToken: string = address of the token on Etherlink
+		originalNetwork: string = network of the original network
+		originalToken: string = address of the token on the original network
+		wrappedToken: string = address of the token on Etherlink
+		sharedDecimals: number = decimals of the token on the original network
 */
 module.exports = async function (taskArgs, hre) {
 	const originalNetwork = taskArgs.originalNetwork
 	const originalTokenChainId = CHAIN_IDS[originalNetwork]
-	const originalWallet = getConnectedWallet(hre, originalNetwork, walletIndex)
-	const originalTokenBridge = (await ethers.getContractFactory(hre, "OriginalTokenBridge")).attach(bridgeAddresses[originalNetwork]).connect(originalWallet)
+	const originalWallet = getConnectedWallet(hre, originalNetwork, 0)
 
-	const wrappedNetworkWallet = getConnectedWallet(hre, "etherlink", walletIndex)
-	const wrappedTokenBridge = (await ethers.getContractFactory(hre, "WrappedTokenBridge")).attach(etherlinkWrappedAssetBridgeAddress).connect(wrappedNetworkWallet)
+	const originalTokenBridge = (await ethers.getContractFactory("OriginalTokenBridge")).attach(bridgeAddresses[originalNetwork]).connect(originalWallet)
+
+	const wrappedNetworkWallet = getConnectedWallet(hre, "etherlink", 0)
+	const wrappedTokenBridge = (await ethers.getContractFactory("WrappedTokenBridge")).attach(etherlinkWrappedAssetBridgeAddress).connect(wrappedNetworkWallet)
 
 	console.log(`\n[${originalNetwork}] OriginalTokenBridge at ${originalTokenBridge.address} calling registerToken(${taskArgs.originalToken})`)
-	await originalTokenBridge.registerToken(taskArgs.originalToken)
+	await originalTokenBridge.registerToken(taskArgs.originalToken.toString(), Number(taskArgs.sharedDecimals))
 
 	console.log(`\n[Etherlink] WrappedTokenBridge at ${wrappedTokenBridge.address} calling registerToken(${taskArgs.wrappedToken}, ${originalTokenChainId}, ${taskArgs.originalToken})`)
-	await wrappedTokenBridge.registerToken(taskArgs.wrappedToken, originalTokenChainId, taskArgs.originalToken)
+	await wrappedTokenBridge.registerToken(taskArgs.wrappedToken.toString(), originalTokenChainId, taskArgs.originalToken.toString())
 }

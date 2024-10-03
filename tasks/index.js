@@ -1,6 +1,6 @@
 task("deployBridges", "deploys OriginalTokenBridge to multiple networks and WrappedTokenBridge to a wrapped token chain", require("./deployBridges"))
 	.addParam("originalNetworks", "comma separated list of networks where OriginalTokenBridge contract is deployed")
-	.addParam("wrappedNetwork", "name of the network where WrappedTokenBridge is deployed")	
+	.addParam("wrappedNetwork", "name of the network where WrappedTokenBridge is deployed")
 // npx hardhat deployBridges --original-networks "goerli,bsc-testnet,mumbai" --wrapped-network "coredao-testnet"
 // npx hardhat deployBridges --original-networks "ethereum,bsc,polygon" --wrapped-network "coredao"
 
@@ -13,14 +13,7 @@ task("setTrustedRemote", "calls setTrustedRemoteAddress in OriginalTokenBridge o
 	.addParam("wrappedNetwork", "name of the network where WrappedTokenBridge is deployed")
 // npx hardhat setTrustedRemote --original-networks "goerli,bsc-testnet,mumbai" --wrapped-network "coredao-testnet"
 
-task("registerToken", "calls registerToken in OriginalTokenBridge and WrappedTokenBridge", require("./registerToken"))
-	.addParam("originalNetwork", "name of the network where OriginalTokenBridge is deployed")
-	.addParam("wrappedNetwork", "name of the network where WrappedTokenBridge is deployed")
-	.addParam("originalToken", "original token address")
-	.addParam("wrappedToken", "wrapped token address")
-// npx hardhat registerToken --original-network "goerli" --original-token "0xa684B88A25c4AE95368d7595c9241cE364ed56Db" --wrapped-network "coredao-testnet" --wrapped-token "0x631774c0B3FDB9502b3093a22aD91FA83fEc493e"
-// npx hardhat registerToken --original-network "bsc-testnet" --original-token "0x33BbFdBA6edFA6E7ac7cA5cbf8100867e0c570CF" --wrapped-network "coredao-testnet" --wrapped-token "0x631774c0B3FDB9502b3093a22aD91FA83fEc493e"
-// npx hardhat registerToken --original-network "mumbai" --original-token "0x7612aE2a34E5A363E137De748801FB4c86499152" --wrapped-network "coredao-testnet" --wrapped-token "0x631774c0B3FDB9502b3093a22aD91FA83fEc493e"
+
 
 task("registerTokens", "calls registerToken in OriginalTokenBridge and WrappedTokenBridge", require("./registerTokens"))
 	.addParam("originalNetworks", "comma separated list of networks where original tokens are deployed")
@@ -59,3 +52,16 @@ task("transferOwnership", "transfers bridges ownership", require("./transferOwne
 task("verifyContract", "verifies a deployed contract", require("./verifyContract"))
 	.addParam("contract", "contract name")
 // npx hardhat verifyContract --contract "OriginalTokenBridge" --network "ethereum"
+
+// HARDHAT_NETWORK=etherlink npx hardhat deployWrappedToken --contract DOGE
+task("deployWrappedToken", "deploys a wrapped asset token", require("./deployWrappedToken"))
+	.addParam("contract", "contract name")
+
+task("registerToken", "calls registerToken in OriginalTokenBridge and WrappedTokenBridge", require("./registerToken"))
+	.addParam("originalNetwork", "name of the network where OriginalTokenBridge is deployed")
+	.addParam("originalToken", "original token address")
+	.addParam("wrappedToken", "wrapped token address")
+	.addParam("sharedDecimals", "decimals of the token")
+// npx hardhat registerToken --original-network "goerli" --original-token "0xa684B88A25c4AE95368d7595c9241cE364ed56Db" --wrapped-network "coredao-testnet" --wrapped-token "0x631774c0B3FDB9502b3093a22aD91FA83fEc493e"
+// npx hardhat registerToken --original-network "bsc-testnet" --original-token "0x33BbFdBA6edFA6E7ac7cA5cbf8100867e0c570CF" --wrapped-network "coredao-testnet" --wrapped-token "0x631774c0B3FDB9502b3093a22aD91FA83fEc493e"
+// npx hardhat registerToken --original-network "mumbai" --original-token "0x7612aE2a34E5A363E137De748801FB4c86499152" --wrapped-network "coredao-testnet" --wrapped-token "0x631774c0B3FDB9502b3093a22aD91FA83fEc493e"

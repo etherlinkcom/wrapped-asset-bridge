@@ -8,6 +8,8 @@
   "fantom":           112,
   "coredao":          153,
 
+  "base":             184,
+
   "goerli":           10121,
   "bsc-testnet":      10102,
   "fuji":             10106,
@@ -17,6 +19,5 @@
   "fantom-testnet":   10112,
   "coredao-testnet":  10153,
 
-  "etherlink":        42793,
-  "etherlinkTestnet": 128123
+  "etherlink":        292
 }
