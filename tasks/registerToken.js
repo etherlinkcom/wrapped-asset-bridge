@@ -1,5 +1,6 @@
 const { getConnectedWallet } = require("../utils/crossChainHelper")
 const CHAIN_IDS = require("../constants/chainIds.json")
+const { ethers } = require("hardhat")
 
 const bridgeAddresses = {
 	"ethereum": "0x1f8E735f424B7A49A885571A2fA104E8C13C26c7",
@@ -32,10 +33,10 @@ module.exports = async function (taskArgs, hre) {
 	const originalNetwork = taskArgs.originalNetwork
 	const originalTokenChainId = CHAIN_IDS[originalNetwork]
 	const originalWallet = getConnectedWallet(hre, originalNetwork, walletIndex)
-	const originalTokenBridge = (await getContractFactory(hre, "OriginalTokenBridge")).attach(bridgeAddresses[originalNetwork]).connect(originalWallet)
+	const originalTokenBridge = (await ethers.getContractFactory(hre, "OriginalTokenBridge")).attach(bridgeAddresses[originalNetwork]).connect(originalWallet)
 
 	const wrappedNetworkWallet = getConnectedWallet(hre, "etherlink", walletIndex)
-	const wrappedTokenBridge = (await getContractFactory(hre, "WrappedTokenBridge")).attach(etherlinkWrappedAssetBridgeAddress).connect(wrappedNetworkWallet)
+	const wrappedTokenBridge = (await ethers.getContractFactory(hre, "WrappedTokenBridge")).attach(etherlinkWrappedAssetBridgeAddress).connect(wrappedNetworkWallet)
 
 	console.log(`\n[${originalNetwork}] OriginalTokenBridge at ${originalTokenBridge.address} calling registerToken(${taskArgs.originalToken})`)
 	await originalTokenBridge.registerToken(taskArgs.originalToken)
