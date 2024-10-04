@@ -60,8 +60,8 @@ Run the below command to register the token with the wrapped asset bridge on bot
 npx hardhat registerToken \
     --original-network "ORIGINAL_NETWORK" \
     --original-token "ORIGINAL_TOKEN_ADDRESS" \
-    --wrapped-token "ETHERLINK_TOKEN_ADDRESS"
-
+    --wrapped-token "ETHERLINK_TOKEN_ADDRESS" \
+    --shared-decimals 18
 
 // Example
 npx hardhat registerToken \
